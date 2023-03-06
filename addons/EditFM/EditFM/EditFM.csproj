@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Desktop\CommandConsol-master\CommandConsol\CommandConsol.csproj" />
+    <ProjectReference Include="..\..\..\src\Core\CommandConsole\CommandConsole.csproj" />
   </ItemGroup>
 
 </Project>
