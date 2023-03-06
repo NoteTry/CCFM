@@ -2,7 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="D:\Project\CommandConsol\CommandConsol\CommandConsol.csproj" />
+  </ItemGroup>
 
 </Project>
