@@ -104,48 +104,11 @@ namespace CommandsConsole.Command
 
             if (this.CountSim(commandL) % 2 != 0)
                 throw new CommandException("Синтаксическая ошибка! (').");
-            
-            for (int i = 0; i < segments.Length; i++)
+            try
             {
-                if (segments[i] != "(str)")
+                for (int i = 0; i < segments.Length; i++)
                 {
-                    if (this.ExistSpace(commandL))
-                    {
-                        arr[i] = commandL.Substring(0, commandL.IndexOf(" ")).Trim();
-                        commandL = commandL.Remove(0, commandL.IndexOf(" ")).Trim();
-                    }
-                    else
-                    {
-                        arr[i] = commandL;
-                        commandL = "$n";
-                        break;
-                    }
-                }
-                
-                if (segments[i] == "(str)")
-                {
-                    if (commandL[0] == '\'' && commandL[commandL.Length-1] == '\'')
-                    {
-                        arr[i] = commandL.TrimStart('\'').TrimEnd('\'').Trim();
-                        commandL = "$n";
-                        break;
-                    }
-
-                    if (commandL[0] == '\'' && commandL.Trim().TrimStart('\'').Contains('\''))
-                    {
-                        if (this.ExistSpace(commandL))
-                        {
-                            arr[i] = commandL.TrimStart('\'').Substring(0, commandL.IndexOf("' ")).Trim().TrimEnd('\'').Trim();
-                            commandL = commandL.TrimStart('\'').Remove(0, commandL.TrimStart('\'').IndexOf('\'') + 1).Trim();
-                        }
-                        else
-                        {
-                            arr[i] = commandL.TrimStart('\'').TrimEnd('\'').Trim();
-                            commandL = "$n";
-                            break;
-                        }
-                    }
-                    else
+                    if (segments[i] != "(str)")
                     {
                         if (this.ExistSpace(commandL))
                         {
@@ -154,12 +117,55 @@ namespace CommandsConsole.Command
                         }
                         else
                         {
-                            arr[i] = commandL.Trim();
+                            arr[i] = commandL;
                             commandL = "$n";
                             break;
                         }
                     }
+
+                    if (segments[i] == "(str)")
+                    {
+                        if (commandL[0] == '\'' && commandL[commandL.Length - 1] == '\'')
+                        {
+                            arr[i] = commandL.TrimStart('\'').TrimEnd('\'').Trim();
+                            commandL = "$n";
+                            break;
+                        }
+
+                        if (commandL[0] == '\'' && commandL.Trim().TrimStart('\'').Contains('\''))
+                        {
+                            if (this.ExistSpace(commandL))
+                            {
+                                arr[i] = commandL.TrimStart('\'').Substring(0, commandL.IndexOf("' ")).Trim().TrimEnd('\'').Trim();
+                                commandL = commandL.TrimStart('\'').Remove(0, commandL.TrimStart('\'').IndexOf('\'') + 1).Trim();
+                            }
+                            else
+                            {
+                                arr[i] = commandL.TrimStart('\'').TrimEnd('\'').Trim();
+                                commandL = "$n";
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (this.ExistSpace(commandL))
+                            {
+                                arr[i] = commandL.Substring(0, commandL.IndexOf(" ")).Trim();
+                                commandL = commandL.Remove(0, commandL.IndexOf(" ")).Trim();
+                            }
+                            else
+                            {
+                                arr[i] = commandL.Trim();
+                                commandL = "$n";
+                                break;
+                            }
+                        }
+                    }
                 }
+            }
+            catch
+            {
+                throw new CommandException("Неудачная попытка обработать команду!");
             }
 
             if (commandL != "$n")
